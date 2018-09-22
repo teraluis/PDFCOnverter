@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="interface/jquery.js"></script>
+	<script src="interface/interface.js"></script>
+	<style type="text/css" media="all">
+	 	
+	    .sortable_item {
+	        cursor : move;
+	        width : 100%;
+	        list-style : none;
+
+	    }
+	    
+	    .ul_style {
+	          
+	          list-style-type : none;
+	          margin : 0;
+	          padding : 0;
+	    }
+	    body {
+	    	padding: 20%;
+	    }
+	</style>
+</head>
+
+<body>
+<ul id="sortlist" class="ul_style"> 
+ 
+    <li id="horaires" class="sortable_item" style="font-size: 10em">Horaires</li>
+    <li id="salle" class="sortable_item" style="font-size: 10em">SALLE</li>
+    <li id="matiere" class="sortable_item" style="font-size: 10em">MATIERE</li>
+    <li id="entite" class="sortable_item" style="font-size: 10em">ENTITE</li>
+    
+</ul>
+<script type="text/javascript">
+ var serial = null;
+    $(document).ready (
+        function() {
+            $( "#sortlist" ).Sortable( {
+            accept : 'sortable_item',
+            axis : 'vertically',
+            style:'font-size:10em',
+            opacity : 0.6,
+            autoSize:true,
+            onchange : function ( sorted ) {
+            serial = $.SortSerialize( 'sortlist' ); 
+
+            $.ajax({
+            	url : "set_position.php",
+                type : "GET",
+                data : serial.hash,
+                success:function(data){
+                	document.write(data);
+                }
+            });
+            }
+        });
+            
+    });
+ 
+</script>
+</body>
+</html>
